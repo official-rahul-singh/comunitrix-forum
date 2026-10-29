@@ -422,8 +422,24 @@ function positionUserCard(hoverEl) {
   }
 }
 
+const USER_CARD_SHOW_DELAY = 1000;
+
 document.querySelectorAll(".user-hover").forEach((hoverEl) => {
-  hoverEl.addEventListener("mouseenter", () => positionUserCard(hoverEl));
+  let showTimer;
+
+  hoverEl.addEventListener("mouseenter", () => {
+    clearTimeout(showTimer);
+    showTimer = setTimeout(() => {
+      positionUserCard(hoverEl);
+      hoverEl.classList.add("is-open");
+    }, USER_CARD_SHOW_DELAY);
+  });
+
+  hoverEl.addEventListener("mouseleave", () => {
+    clearTimeout(showTimer);
+    hoverEl.classList.remove("is-open");
+  });
+
   hoverEl.addEventListener("focusin", () => positionUserCard(hoverEl));
 });
 
